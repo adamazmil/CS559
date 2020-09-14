@@ -9,32 +9,47 @@ function setup() { "use strict";
     // use the sliders to get various parameters
     var size = ssize.value;
 
-    function DrawCircle(color) {
+    function DrawSun(color) {
+      context.strokeStyle = "yellow";
       context.beginPath();
       context.arc(1000,200,size,0, Math.PI*2);
       context.fillStyle = color;
       context.fill();
       context.stroke();
-      
     }
     //obtained from demo2
-    function DrawAxes(color) {
+    function DrawSea(color) {
       context.fillStyle=color;
       context.beginPath();
-      // Sea
       context.moveTo(0,550);context.lineTo(1280,550);context.lineTo(1280,720);
       context.lineTo(0,720);context.lineTo(0,550);
-      
       context.fill();
   
    
      }
     
+     function DrawMoon() {
+      var offset =0.6*size;
+      context.beginPath();
+      context.strokeStyle="gray";
+      context.fillStyle = "grey";
+      context.arc(300,200,size,0, Math.PI*2);
+      context.fill();
+      context.stroke();
+      context.beginPath();
+      context.strokeStyle="white";
+      context.fillStyle = "white";
+      context.arc(300+offset,200,size,0, Math.PI*2);
+      context.fill();
+      context.stroke();
+     }
+    
     // make sure you understand these
  
-    DrawAxes("blue");
-    DrawCircle("yellow");
-    context.restore();
+    DrawSea("blue");
+    DrawSun("yellow");
+    DrawMoon();
+    //context.restore();
     
   }
   ssize.addEventListener("input",draw);
