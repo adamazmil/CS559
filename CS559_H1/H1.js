@@ -4,24 +4,24 @@ function setup() { "use strict";
   slider1.value = 0;
   var slider2 = document.getElementById('slider2');
   slider2.value = 0;
+  //var ssize = document.getElementById('size');
+  //ssize.value = 20;
+
   function draw() {
     var context = canvas.getContext('2d');
     canvas.width = canvas.width;
     // use the sliders to get various parameters
     var dx = slider1.value;
     var dy = slider2.value;
-    
-    function DrawLshape(color) {
+    //var size = ssize.value;
+
+    function DrawCircle(color) {
       context.beginPath();
+      context.arc(100,200,20,0, Math.PI*2);
       context.fillStyle = color;
-      context.moveTo(50,25);
-      context.lineTo(150,25);
-      context.lineTo(150,75);
-      context.lineTo(100,75);
-      context.lineTo(100,175);
-      context.lineTo(50,175);
-      context.closePath();
-      context.fill();      
+      context.fill();
+      context.stroke();
+      
     }
     
     function DrawAxes(color) {
@@ -40,6 +40,8 @@ function setup() { "use strict";
       context.moveTo(5,135);context.lineTo(5,142);
       
       context.stroke();
+  
+   
      }
     
     // make sure you understand these
@@ -47,13 +49,13 @@ function setup() { "use strict";
     DrawAxes("black");
     context.save();
     context.translate(dx,dy);
-    DrawAxes("green");
-    DrawLshape("green");
+    DrawCircle("blue");
     context.restore();
     
   }
   slider1.addEventListener("input",draw);
   slider2.addEventListener("input",draw);
+  //ssize.addEventListener("input",draw);
   draw();
 }
 window.onload = setup;
