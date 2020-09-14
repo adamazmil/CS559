@@ -4,8 +4,8 @@ function setup() { "use strict";
   slider1.value = 0;
   var slider2 = document.getElementById('slider2');
   slider2.value = 0;
-  //var ssize = document.getElementById('size');
-  //ssize.value = 20;
+  var ssize = document.getElementById('slider3');
+  ssize.value = 20;
 
   function draw() {
     var context = canvas.getContext('2d');
@@ -13,11 +13,11 @@ function setup() { "use strict";
     // use the sliders to get various parameters
     var dx = slider1.value;
     var dy = slider2.value;
-    //var size = ssize.value;
+    var size = ssize.value;
 
     function DrawCircle(color) {
       context.beginPath();
-      context.arc(100,200,20,0, Math.PI*2);
+      context.arc(100,200,size,0, Math.PI*2);
       context.fillStyle = color;
       context.fill();
       context.stroke();
@@ -55,7 +55,7 @@ function setup() { "use strict";
   }
   slider1.addEventListener("input",draw);
   slider2.addEventListener("input",draw);
-  //ssize.addEventListener("input",draw);
+  ssize.addEventListener("input",draw);
   draw();
 }
 window.onload = setup;
