@@ -1,14 +1,15 @@
 function setup() { "use strict";
   var canvas = document.getElementById('myCanvas');
   var ssize = document.getElementById('slider1');
+  var check = document.getElementById('switch');
+  check.checked = false;
   ssize.value = 60;
-
   function draw() {
     var context = canvas.getContext('2d');
     canvas.width = canvas.width;
     // use the sliders to get various parameters
     var size = ssize.value;
-
+    var event = check.checked;
     function DrawSun(color) {
       context.strokeStyle = "yellow";
       context.beginPath();
@@ -48,11 +49,18 @@ function setup() { "use strict";
  
     DrawSea("blue");
     DrawSun("yellow");
-    DrawMoon();
-    //context.restore();
+    console.log(check);
+    if(event==true){
+      DrawMoon();
+    }
+    
+    
+    context.restore();
     
   }
   ssize.addEventListener("input",draw);
+  check.addEventListener("input",draw);
+
   draw();
 }
 window.onload = setup;
