@@ -28,6 +28,14 @@ function setup() { "use strict";
   
    
      }
+     function DrawNightSky(){
+       context.fillStyle="#082345";
+       context.globalCompositeOperation = 'destination-over';
+       context.beginPath();
+       context.moveTo(0,0);context.lineTo(1280,0);context.lineTo(1280,550);
+       context.lineTo(0,550);context.lineTo(0,0);
+       context.fill();
+     }
     
      function DrawMoon() {
       var offset =0.6*size;
@@ -38,8 +46,8 @@ function setup() { "use strict";
       context.fill();
       context.stroke();
       context.beginPath();
-      context.strokeStyle="white";
-      context.fillStyle = "white";
+      context.strokeStyle="#082345";
+      context.fillStyle = "#082345";
       context.arc(300+offset,200,size,0, Math.PI*2);
       context.fill();
       context.stroke();
@@ -48,10 +56,14 @@ function setup() { "use strict";
     // make sure you understand these
  
     DrawSea("blue");
-    DrawSun("yellow");
+    // DrawSun("yellow");
     console.log(check);
     if(event==true){
       DrawMoon();
+      DrawNightSky();
+    }
+    else{
+      DrawSun("yellow");
     }
     
     
