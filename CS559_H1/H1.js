@@ -56,7 +56,6 @@ function setup() { "use strict";
     // make sure you understand these
  
     DrawSea("blue");
-    // DrawSun("yellow");
     console.log(check);
     if(event==true){
       DrawMoon();
