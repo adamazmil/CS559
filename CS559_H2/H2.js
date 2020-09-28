@@ -17,7 +17,7 @@ function setup() { "use strict";
     }
     function legs(){
         context.beginPath();
-        context.fillStyle = "grey";
+        context.fillStyle = "black";
         context.moveTo(0,0);
         context.lineTo(10,10);
         context.lineTo(90,10);
@@ -35,22 +35,23 @@ function setup() { "use strict";
     context.restore();
     context.save();
     context.rotate(angle1);
-    context.scale(2.0,1);
+    context.scale(2,1);
     legs();
     context.save();
     context.translate(100,0);
-    context.scale(0.5,2);
+    context.scale(1/2,1);
+    context.scale(1,2);
     context.rotate(angle2);
     legs();
     context.restore();
     context.restore();
     context.save();
-    context.scale(2,1)
+    context.scale(2,1);
     legs();
     context.translate(100,0);
-    context.save();
+    context.scale(1/2,1);
+    //context.save();
     context.rotate(angle3);
-    context.scale(1,0.70);
     legs();
     context.restore();
     context.restore();
@@ -59,10 +60,65 @@ function setup() { "use strict";
     context.scale(1.5,1);
     legs();
     context.translate(100,0);
-    context.save();
+    context.scale(1/1.5,1);
+    //context.save
     context.rotate(angle3);
-    context.scale(1.5,0.8);
     legs();
+    context.restore();
+    context.save();
+    context.translate(0,70);
+    context.rotate(angle4);
+    legs();
+    context.translate(90,0);
+    context.rotate(angle3);
+    context.scale(1.5,1);
+    legs();
+    context.restore();
+    context.save();
+    context.translate(0,70);
+    context.scale(-1,1);
+    context.rotate(angle4);
+    legs();
+    context.translate(90,0);
+    context.rotate(angle3);
+    context.scale(1.5,1);
+    legs();
+    context.restore();
+    context.save();
+    //left side
+    context.rotate(-angle1);
+    context.scale(-2,1);
+    legs();
+    context.save();
+    context.translate(100,0);
+    context.scale(1/2,1);
+    context.scale(1,2);
+    context.rotate(angle2);
+    legs();
+    context.restore();
+    context.restore();
+    context.save();
+    context.scale(-2,1);
+    legs();
+    context.translate(100,0);
+    context.scale(1/2,1);
+    //context.save();
+    context.rotate(angle3);
+    legs();
+    context.restore();
+    context.restore();
+    context.save();
+    context.rotate(-angle4);
+    context.scale(-1.5,1);
+    legs();
+    context.translate(100,0);
+    context.scale(1/1.5,1);
+    //context.save
+    context.rotate(angle3);
+    legs();
+    context.restore();
+    context.save();
+
     
     
     
