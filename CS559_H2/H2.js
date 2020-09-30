@@ -157,6 +157,7 @@ function setup() { "use strict";
     
     
   }
+  
   vert.addEventListener("input",draw);
   mod.addEventListener("input",draw);
   draw();
