@@ -3,13 +3,15 @@ function setup() { "use strict";
   function draw() {
     var context = canvas.getContext('2d');
     canvas.width = canvas.width;
-    let angle1 = -55*(Math.PI/180);
-    let angle2 = 90*(Math.PI/180);
-    let angle3 = 65*(Math.PI/180);
-    let angle4 = 25*(Math.PI/180);
+    let angle1 = -40*(Math.PI/180);
+    let angle2 = 85*(Math.PI/180);
+    let angle3 = 70*(Math.PI/180);
+    let angle4 = 35*(Math.PI/180);
+    let angle5 = -20*(Math.PI/180);
     function body(size){
         context.strokeStyle = "black";
         context.beginPath();
+        
         context.arc(0,0,size,0, Math.PI*2);
         context.fillStyle = "black";
         context.fill();
@@ -27,98 +29,114 @@ function setup() { "use strict";
         context.closePath();
         context.fill();
     }
-    context.translate (500, 360);
-    context.save();
-    body(100);
-    context.translate(0,100);
-    body(50);
-    context.restore();
-    context.save();
-    context.rotate(angle1);
-    context.scale(2,1);
-    legs();
-    context.save();
-    context.translate(100,0);
-    context.scale(1/2,1);
-    context.scale(1,2);
-    context.rotate(angle2);
-    legs();
-    context.restore();
-    context.restore();
-    context.save();
-    context.scale(2,1);
-    legs();
-    context.translate(100,0);
-    context.scale(1/2,1);
-    //context.save();
-    context.rotate(angle3);
-    legs();
-    context.restore();
-    context.restore();
-    context.save();
-    context.rotate(angle4);
-    context.scale(1.5,1);
-    legs();
-    context.translate(100,0);
-    context.scale(1/1.5,1);
-    //context.save
-    context.rotate(angle3);
-    legs();
-    context.restore();
-    context.save();
-    context.translate(0,70);
-    context.rotate(angle4);
-    legs();
-    context.translate(90,0);
-    context.rotate(angle3);
-    context.scale(1.5,1);
-    legs();
-    context.restore();
-    context.save();
-    context.translate(0,70);
-    context.scale(-1,1);
-    context.rotate(angle4);
-    legs();
-    context.translate(90,0);
-    context.rotate(angle3);
-    context.scale(1.5,1);
-    legs();
-    context.restore();
-    context.save();
-    //left side
-    context.rotate(-angle1);
-    context.scale(-2,1);
-    legs();
-    context.save();
-    context.translate(100,0);
-    context.scale(1/2,1);
-    context.scale(1,2);
-    context.rotate(angle2);
-    legs();
-    context.restore();
-    context.restore();
-    context.save();
-    context.scale(-2,1);
-    legs();
-    context.translate(100,0);
-    context.scale(1/2,1);
-    //context.save();
-    context.rotate(angle3);
-    legs();
-    context.restore();
-    context.restore();
-    context.save();
-    context.rotate(-angle4);
-    context.scale(-1.5,1);
-    legs();
-    context.translate(100,0);
-    context.scale(1/1.5,1);
-    //context.save
-    context.rotate(angle3);
-    legs();
-    context.restore();
-    context.save();
+    function drawSpider(){
 
+      context.translate (500, 360);
+      context.save();
+      context.scale(1,1.2);
+      body(100);
+      context.scale(1,1/1.2);
+      context.translate(0,100);
+      context.scale(1,0.8);
+      body(50);
+      context.scale(1,1/0.8);
+      context.translate(0,55);
+      body(50);
+      context.restore();
+      context.save();
+      context.rotate(angle1);
+      context.scale(2,1);
+      //back legs
+      legs();
+      context.save();
+      context.translate(100,0);
+      context.scale(1/2,1);
+      context.scale(1,2);
+      context.rotate(-angle2);
+      legs();
+      //middle legs
+      context.restore();
+      context.restore();
+      context.save();
+      context.scale(2,1);
+      context.rotate(angle5);
+      legs();
+      context.translate(100,0);
+      context.scale(1/2,1);
+      context.rotate(-angle3);
+      legs();
+      context.restore();
+      context.restore();
+      context.save();
+      //2nd legs
+      context.rotate(angle4);
+      context.scale(1.5,1);
+      legs();
+      context.translate(100,0);
+      context.scale(1/1.5,1);
+      context.rotate(angle3);
+      legs();
+      context.restore();
+      context.save();
+      //1st legs
+      context.translate(0,70);
+      context.rotate(angle4);
+      legs();
+      context.translate(90,0);
+      context.rotate(angle3);
+      context.scale(1.5,1);
+      legs();
+      context.restore();
+      context.save();
+      //left side
+      //lst legs
+      context.translate(0,70);
+      context.scale(-1,1);
+      context.rotate(angle4);
+      legs();
+      context.translate(90,0);
+      context.rotate(angle3);
+      context.scale(1.5,1);
+      legs();
+      context.restore();
+      context.save();
+      context.rotate(-angle1);
+      context.scale(-2,1);
+      //back legs
+      legs();
+      context.save();
+      context.translate(100,0);
+      context.scale(1/2,1);
+      context.scale(1,2);
+      context.rotate(-angle2);
+      legs();
+      context.restore();
+      context.restore();
+      context.save();
+      //middle legs
+      context.scale(-2,1);
+      context.rotate(angle5);
+      legs();
+      context.translate(100,0);
+      context.scale(1/2,1);
+      context.rotate(-angle3);
+      legs();
+      context.restore();
+      context.restore();
+      context.save();
+      //2nd legs
+      context.rotate(-angle4);
+      context.scale(-1.5,1);
+      legs();
+      context.translate(100,0);
+      context.scale(1/1.5,1);
+      context.rotate(angle3);
+      legs();
+      context.restore();
+      context.save();
+    }
+    context.scale(0.8,0.8);
+    drawSpider();
     
     
     
