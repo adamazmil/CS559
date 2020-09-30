@@ -1,8 +1,13 @@
 function setup() { "use strict";
   var canvas = document.getElementById('myCanvas');
+  var vert = document.getElementById  ('vertical');
+  vert.value = 0;
+  
+
   function draw() {
     var context = canvas.getContext('2d');
     canvas.width = canvas.width;
+    let v = vert.value;
     let angle1 = -40*(Math.PI/180);
     let angle2 = 85*(Math.PI/180);
     let angle3 = 70*(Math.PI/180);
@@ -29,10 +34,19 @@ function setup() { "use strict";
         context.closePath();
         context.fill();
     }
+    function web(){
+      context.beginPath();
+      context.strokeStyle = "gray";
+      context.moveTo(0,0);
+      context.lineTo(0,-360-(+v));
+      context.closePath();
+      context.stroke();
+    }
     function drawSpider(){
-
-      context.translate (500, 360);
+      console.log(v);
+      context.translate (500, 360+(+v));
       context.save();
+      web();
       context.scale(1,1.2);
       body(100);
       context.scale(1,1/1.2);
@@ -141,7 +155,7 @@ function setup() { "use strict";
     
     
   }
-
+  vert.addEventListener("input",draw);
   draw();
 }
 window.onload = setup;
