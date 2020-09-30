@@ -4,13 +4,15 @@ function setup() { "use strict";
   var mod = document.getElementById ('move');
   mod.value = 0;
   vert.value = 0;
-  
+  let v = 0;
+  let theta = 0;
+  theta = theta*(Math.PI/180);
 
   function draw() {
     var context = canvas.getContext('2d');
     canvas.width = canvas.width;
-    let theta = mod.value*(Math.PI/180);
-    let v = vert.value;
+    
+    
     let angle1 = -40*(Math.PI/180);
     let angle2 = 85*(Math.PI/180);
     let angle3 = 70*(Math.PI/180);
@@ -46,6 +48,11 @@ function setup() { "use strict";
       context.stroke();
     }
     function drawSpider(){
+      v =(v+1)%250;
+      if (theta>-0.10471975512){theta = theta-(0.08*(Math.PI/180));}
+      else
+      theta=0;
+      
       context.translate (500, 360+(+v));
       context.save();
       web();
@@ -153,14 +160,13 @@ function setup() { "use strict";
     }
     context.scale(0.8,0.8);
     drawSpider();
-    
-    
+    window.requestAnimationFrame(draw);
     
   }
-  
-  vert.addEventListener("input",draw);
-  mod.addEventListener("input",draw);
-  draw();
+  window.requestAnimationFrame(draw);
+  //vert.addEventListener("input",draw);
+  //mod.addEventListener("input",draw);
+  //draw();
 }
 window.onload = setup;
 
