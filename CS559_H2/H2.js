@@ -7,7 +7,7 @@ function setup() { "use strict";
   let v = 0;
   let theta = 0;
   theta = theta*(Math.PI/180);
-
+  let cycle = false;
   function draw() {
     var context = canvas.getContext('2d');
     canvas.width = canvas.width;
@@ -49,9 +49,14 @@ function setup() { "use strict";
     }
     function drawSpider(){
       v =(v+1)%250;
-      if (theta>-0.10471975512){theta = theta-(0.08*(Math.PI/180));}
-      else
-      theta=0;
+      
+      if (theta>-0.10471975512 && cycle == false){theta = theta-(0.08*(Math.PI/180));}
+      else{
+        cycle = true;
+        theta = theta + (0.08*(Math.PI/180));
+        if (theta>0.10471975512 && cycle ==true) cycle = false;
+      }
+      
       
       context.translate (500, 360+(+v));
       context.save();
