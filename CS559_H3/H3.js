@@ -1,9 +1,5 @@
 function setup() { "use strict";
   var canvas = document.getElementById('myCanvas');
-  var vert = document.getElementById  ('vertical');
-  var mod = document.getElementById ('move');
-  mod.value = 0;
-  vert.value = 0;
   let v = 0;
   let theta = 0;
   theta = theta*(Math.PI/180);
@@ -39,14 +35,8 @@ function setup() { "use strict";
         context.stroke();
     }
     function legs(){
-         context.beginPath();
-         context.fillStyle = "black";
-        // context.moveTo(0,0);
-        // context.lineTo(10,10);
-        // context.lineTo(90,10);
-        // context.lineTo(100,0);
-        // context.lineTo(90,-10);
-        // context.lineTo(10,-10);
+        context.beginPath();
+        context.fillStyle = "black";
         moveToTx(0,0);
         lineToTx(10,10);
         lineToTx(90,10);
@@ -60,8 +50,6 @@ function setup() { "use strict";
     function web(){
        context.beginPath();
       context.strokeStyle = "gray";
-    //   context.moveTo(0,0);
-    //   context.lineTo(0,-360-(+v));
       moveToTx(0,0);
       lineToTx(0,-360-(+v));
       context.closePath();
@@ -227,121 +215,12 @@ function setup() { "use strict";
       mat3.scale(f_2l_leg,f_2l_leg,[1.5,1]);
       mat3.multiply(stack[0],stack[0],f_2l_leg);
       legs();
-
-    //   context.translate (500, 360+(+v));
-    //   context.save();
-    //   web();
-    //   context.scale(1,1.2);
-    //   body(100);
-    //   context.scale(1,1/1.2);
-    //   context.translate(0,100);
-    //   context.scale(1,0.8);
-    //   body(50);
-    //   context.scale(1,1/0.8);
-    //   context.translate(0,55);
-    //   body(50);
-    //   context.restore();
-    //   context.save();
-    //   context.rotate(angle1 + theta);
-    //   context.scale(2,1);
-    //   //back legs
-    //   legs();
-    //   context.save();
-    //   context.translate(100,0);
-    //   context.scale(1/2,1);
-    //   context.scale(1,2);
-    //   context.rotate(-angle2);
-    //   legs();
-    //   //middle legs
-    //   context.restore();
-    //   context.restore();
-    //   context.save();
-    //   context.scale(2,1);
-    //   context.rotate(angle5 + theta);
-    //   legs();
-    //   context.translate(100,0);
-    //   context.scale(1/2,1);
-    //   context.rotate(-angle3);
-    //   legs();
-    //   context.restore();
-    //   context.restore();
-    //   context.save();
-    //   //2nd legs
-    //   context.rotate(angle4 - theta);
-    //   context.scale(1.5,1);
-    //   legs();
-    //   context.translate(100,0);
-    //   context.scale(1/1.5,1);
-    //   context.rotate(angle3);
-    //   legs();
-    //   context.restore();
-    //   context.save();
-    //   //1st legs
-    //   context.translate(0,70);
-    //   context.rotate(angle4 - theta);
-    //   legs();
-    //   context.translate(90,0);
-    //   context.rotate(angle3);
-    //   context.scale(1.5,1);
-    //   legs();
-    //   context.restore();
-    //   context.save();
-    //   //left side
-    //   //lst legs
-    //   context.translate(0,70);
-    //   context.scale(-1,1);
-    //   context.rotate(angle4 - theta );
-    //   legs();
-    //   context.translate(90,0);
-    //   context.rotate(angle3);
-    //   context.scale(1.5,1);
-    //   legs();
-    //   context.restore();
-    //   context.save();
-    //   //back legs
-    //   context.rotate(-angle1 - theta);
-    //   context.scale(-2,1);
-    //   legs();
-    //   context.save();
-    //   context.translate(100,0);
-    //   context.scale(1/2,1);
-    //   context.scale(1,2);
-    //   context.rotate(-angle2);
-    //   legs();
-    //   context.restore();
-    //   context.restore();
-    //   context.save();
-    //   //middle legs
-    //   context.scale(-2,1);
-    //   context.rotate(angle5 + theta);
-    //   legs();
-    //   context.translate(100,0);
-    //   context.scale(1/2,1);
-    //   context.rotate(-angle3);
-    //   legs();
-    //   context.restore();
-    //   context.restore();
-    //   context.save();
-    //   //2nd legs
-    //   context.rotate(-angle4 + theta);
-    //   context.scale(-1.5,1);
-    //   legs();
-    //   context.translate(100,0);
-    //   context.scale(1/1.5,1);
-    //   context.rotate(angle3);
-    //   legs();
-    //   context.restore();
-    //   context.save();
     }
     drawSpider();
     // window.requestAnimationFrame(draw);
 
   }
   //window.requestAnimationFrame(draw);
-  //vert.addEventListener("input",draw);
-  //mod.addEventListener("input",draw);
-
-
   draw();
 }
 window.onload = setup;
