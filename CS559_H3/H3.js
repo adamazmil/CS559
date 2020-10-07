@@ -56,20 +56,18 @@ function setup() { "use strict";
       context.stroke();
     }
     function drawSpider(){
-      // if (v<=250 && acycle == false){v =(v+1);}
-      // else{
-      //   acycle = true;
-      //   v= v-1;
-      //   if (v<0 && acycle == true) acycle = false;
-      // }
-      
-      
-      // if (theta>-0.10471975512 && cycle == false){theta = theta-(0.08*(Math.PI/180));}
-      // else{
-      //   cycle = true;
-      //   theta = theta + (0.08*(Math.PI/180));
-      //   if (theta>0.10471975512 && cycle == true) cycle = false;
-      // }
+      if (v<=210 && acycle == false){v =(v+0.7);}
+      else{
+        acycle = true;
+        v= v-0.7;
+        if (v<0 && acycle == true) acycle = false;
+      }
+      if (theta>-0.10471975512 && cycle == false){theta = theta-(0.08*(Math.PI/180));}
+      else{
+        cycle = true;
+        theta = theta + (0.08*(Math.PI/180));
+        if (theta>0.10471975512 && cycle == true) cycle = false;
+      }
       let web_to_canvas = mat3.create();
       mat3.fromTranslation(web_to_canvas,[500,240+(+v)]);
       mat3.multiply(stack[0],stack[0],web_to_canvas);
@@ -217,10 +215,10 @@ function setup() { "use strict";
       legs();
     }
     drawSpider();
-    // window.requestAnimationFrame(draw);
+    window.requestAnimationFrame(draw);
 
   }
-  //window.requestAnimationFrame(draw);
+  window.requestAnimationFrame(draw);
   draw();
 }
 window.onload = setup;
