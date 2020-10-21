@@ -54,18 +54,23 @@ function setup() {
 		return [x,y];
 	}
 
-	var C2 = function(t) { // G1 continuity at t=1
+	var C2 = function(t) { 
             var x = t;
             var y = Math.cos(t)*Math.cos(t);
             return [x,y];
 	}
-
+	
 	var C2tan = function (t) {
 		var x = t;
-		var y = -2*Math.cos(t)*Math.sin(t);
+		var y = -2*Math.sin(t)*Math.cos(t);
 		return [x,y];
 	}
 	
+	var C3 = function(t){
+		var x = t;
+		var y = (Math.exp(t)/Math.exp(t)+1)-1.921;
+		return [x,y];
+	}
 	var Ccomp = function(t) {
             if(t<1) {
 		return C0(t);
@@ -73,8 +78,11 @@ function setup() {
 			else if(t<3.00874 && t>1){
 		return C1(t);
 			}
-			else if(t>3.00874 && t<=5){
+			else if(t>3.00874 && t<7.57){
 		return C2(t);
+			}
+			else if(t>7.57 && t<=8){
+		return C3(t);
 			}
 			
 	}
@@ -86,7 +94,7 @@ function setup() {
 				else if(t<3.00874 && t>1){
 			return C1tan(t);
 				}
-				else if(t>3.00874 && t<=5){
+				else if(t>3.00874 && t<=8){
 			return C2tan(t);
 				}
 	}
@@ -111,9 +119,16 @@ function setup() {
 	mat3.scale(Tblue_to_canvas,Tblue_to_canvas,[150,-150]); // Flip the Y-axis
 
 	if(trajectory == true){
-		drawTrajectory(0.0,1.0,100,C0,Tblue_to_canvas,"blue");
-		drawTrajectory(1.0,3.00874,100,C1,Tblue_to_canvas,"blue");
-		drawTrajectory(2.0,5.0,100,C2,Tblue_to_canvas,"blue");	
+	drawTrajectory(0.0,1.0,100,C0,Tblue_to_canvas,"blue");
+	drawTrajectory(1.0,3.00874,100,C1,Tblue_to_canvas,"blue");
+	drawTrajectory(2.0,5.0,100,C2,Tblue_to_canvas,"blue");		
+	drawTrajectory(5.0,8.0,100,C3,Tblue_to_canvas,"blue");
+	}
+	else{
+	drawTrajectory(0.0,1.0,100,C0,Tblue_to_canvas,"blue");
+	drawTrajectory(1.0,3.00874,100,C1,Tblue_to_canvas,"green");
+	drawTrajectory(3.00874,7.57,100,C2,Tblue_to_canvas,"red");
+	drawTrajectory(7.57,8.0,100,C3,Tblue_to_canvas,"purple");
 	}
 	var Tgreen_to_blue = mat3.create();
 	mat3.fromTranslation(Tgreen_to_blue,Ccomp(tParam));
