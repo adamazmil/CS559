@@ -68,12 +68,12 @@ function setup() {
 	
 	var C3 = function(t){
 		var x = t;
-		var y = (Math.exp(t)/Math.exp(t)+1)-1.921;
+		var y = (Math.exp(t))/(Math.exp(t)+1)-0.915;
 		return [x,y];
 	}
 	var C3tan = function(t){
 		var x = t;
-		var y = Math.exp(t)/(Math.exp(t)+1)^2;
+		var y = (Math.exp(t))/((Math.exp(t)+1)^2);
 		return [x,y];
 	}
 	var Ccomp = function(t) {
@@ -83,10 +83,10 @@ function setup() {
 			else if(t<3.00874 && t>1){
 		return C1(t);
 			}
-			else if(t>3.00874 && t<7.57){
+			else if(t>3.00874 && t<7.559){
 		return C2(t);
 			}
-			else if(t>7.57 && t<=8.2){
+			else if(t>7.559 && t<=8.2){
 		return C3(t);
 			}
 			
@@ -99,10 +99,10 @@ function setup() {
 				else if(t<3.00874 && t>1){
 			return C1tan(t);
 				}
-				else if(t>3.00874 && t<=7.57){
+				else if(t>3.00874 && t<7.559){
 			return C2tan(t);
 				}
-				else if(t>7.57 && t<=8.2){
+				else if(t>7.559 && t<=8.2){
 			return C3tan(t);
 				}
 	}
@@ -135,8 +135,8 @@ function setup() {
 	else{
 	drawTrajectory(0.0,1.0,100,C0,Tblue_to_canvas,"blue");
 	drawTrajectory(1.0,3.00874,100,C1,Tblue_to_canvas,"green");
-	drawTrajectory(3.00874,7.57,100,C2,Tblue_to_canvas,"red");
-	drawTrajectory(7.57,8.2,100,C3,Tblue_to_canvas,"purple");
+	drawTrajectory(3.00874,7.559,100,C2,Tblue_to_canvas,"red");
+	drawTrajectory(7.559,8.2,100,C3,Tblue_to_canvas,"purple");
 	}
 	var Tgreen_to_blue = mat3.create();
 	mat3.fromTranslation(Tgreen_to_blue,Ccomp(tParam));
