@@ -6,9 +6,11 @@ function setup() { "use strict";
   let theta = 0;
   theta = theta*(Math.PI/180);
   let cycle = false;
-  let acycle = false; 
+  let acycle = false;
+  
   function draw() {
     var context = canvas.getContext('2d');
+     
     var viewAngle = slider1.value*0.02*Math.PI;
     canvas.width = canvas.width;
     let angle1 = -40*(Math.PI/180);
@@ -17,7 +19,9 @@ function setup() { "use strict";
     let angle4 = 35*(Math.PI/180);
     let angle5 = -20*(Math.PI/180);
     let stack = [mat4.create()];
-
+    var background = new Image();
+    background.src = "Mccavern.png";
+      context.drawImage(background,0,0); 
     function moveToTx(x,y,z){
       let res=vec3.create(); 
       vec3.transformMat4(res,[x,y,z],stack[0]);
@@ -28,15 +32,25 @@ function setup() { "use strict";
       vec3.transformMat4(res,[x,y,z],stack[0]);
       context.lineTo(res[0],res[1]);
     }
-    function body(size){
-        context.strokeStyle = "black";
-        context.fillStyle = "black";
-        context.globalCompositeOperation = 'destination-over';
-        context.beginPath();
-        context.arc(0,0,size,0, Math.PI*2);
-        context.fill();
-        context.stroke();
+    function body(z){
+      context.beginPath();
+      context.fillStyle = "black";
+      context.strokeStyle = "Gray";
+      moveToTx(0,0,z);
+      lineToTx(0,200,z);
+      lineToTx(200,200,z);
+      lineToTx(200,0,z);
+      lineToTx(0,0,z); 
+      context.closePath();
+      context.fill();
+      context.stroke()
     }
+    function bodyz(depth){
+      for(let i = 0;i<depth;i++){
+          body(i);
+      }
+
+  }
     function legs(z){
         context.beginPath();
         context.fillStyle = "black";
@@ -82,7 +96,7 @@ function setup() { "use strict";
         //sets up projection system
     
         let ortho = mat4.create();
-        mat4.ortho(ortho,-100,100,-100,100,-1,1); //ortho matrix
+        mat4.ortho(ortho,-110,110,-110,110,-110,1); //ortho matrix
     
         //setting up VIEWPORT
         
@@ -97,31 +111,24 @@ function setup() { "use strict";
         mat4.multiply(stack[0],stack[0],projection);
         }
     function drawSpider(){
-    //   if (v<=210 && acycle == false){v =(v+0.3);}
-    //   else{
-    //     acycle = true;
-    //     v= v-0.3;
-    //     if (v<0 && acycle == true) acycle = false;
-    //   }
-    //   if (theta>-0.10471975512 && cycle == false){theta = theta-(0.03*(Math.PI/180));}
-    //   else{
-    //     cycle = true;
-    //     theta = theta + (0.03*(Math.PI/180));
-    //     if (theta>0.10471975512 && cycle == true) cycle = false;
-    //   }
+      if (v<=210 && acycle == false){v =(v+0.3);}
+      else{
+        acycle = true;
+        v= v-0.3;
+        if (v<0 && acycle == true) acycle = false;
+      }
+      if (theta>-0.10471975512 && cycle == false){theta = theta-(0.03*(Math.PI/180));}
+      else{
+        cycle = true;
+        theta = theta + (0.03*(Math.PI/180));
+        if (theta>0.10471975512 && cycle == true) cycle = false;
+      }
       let web_to_canvas = mat4.create();
       mat4.fromTranslation(web_to_canvas,[500,240+(+v),0]);
       mat4.multiply(stack[0],stack[0],web_to_canvas);
        //save
       web();
       stack.unshift(mat4.clone(stack[0]));
-      context.setTransform(1,0,0,1.2,500,360+(+v));
-      //body(100);
-      context.setTransform(0.8,0,0,0.8,500,460+(+v));
-      //body(50);
-      context.setTransform(1,0,0,1,500,515+(+v));
-      //body(50);
-      context.setTransform(1,0,0,1,0,0);
       //back leg R
       let b_1r_leg = mat4.create();
       mat4.fromTranslation(b_1r_leg,[0,100,0]);
@@ -254,17 +261,34 @@ function setup() { "use strict";
       mat4.scale(f_2l_leg,f_2l_leg,[1.5,1,1]);
       mat4.multiply(stack[0],stack[0],f_2l_leg);
       legsz();
+      stack.shift();
+      stack.shift();
+      stack.unshift(mat4.clone(stack[0]));
+       let back = mat4.create();
+       mat4.fromTranslation(back,[-80,-80,-10]);
+       mat4.multiply(stack[0],stack[0],back);
+       bodyz(30);
+       stack.shift();
+       stack.unshift(mat4.clone(stack[0]));
+      let mid = mat4.create();
 
+       mat4.fromTranslation(mid,[0,120,0]);
+       mat4.scale(mid,mid,[0.3,0.3,1]);
+       mat4.multiply(stack[0],stack[0],mid);
+       bodyz(20);
+       let mouth = mat4.create();
+       mat4.fromTranslation(mouth,[-70,210,0]);
+       mat4.scale(mouth,mouth,[2,2,1.]);
+       mat4.multiply(stack[0],stack[0],mouth);
+       bodyz(20);
     }
+    
     SetCam();
     drawSpider();
-    
     
     window.requestAnimationFrame(draw);
 
   }
-  window.requestAnimationFrame(draw);
-  slider1.addEventListener("input",draw);
   
   draw();
 }
