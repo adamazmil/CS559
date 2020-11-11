@@ -1,5 +1,7 @@
 function setup() { "use strict";
   var canvas = document.getElementById('myCanvas');
+  let slider1 = document.getElementById('slider1');
+  slider1.value = 0; 
   let v = 0;
   let theta = 0;
   theta = theta*(Math.PI/180);
@@ -7,6 +9,7 @@ function setup() { "use strict";
   let acycle = false; 
   function draw() {
     var context = canvas.getContext('2d');
+    var viewAngle = slider1.value*0.02*Math.PI;
     canvas.width = canvas.width;
     let angle1 = -40*(Math.PI/180);
     let angle2 = 85*(Math.PI/180);
@@ -55,6 +58,36 @@ function setup() { "use strict";
       context.closePath();
       context.stroke();
     }
+    function SetCam(){
+
+        //sets up lookat     
+        let eye = vec3.create();
+        let dist = 100.0;
+        eye[0] = dist*Math.sin(viewAngle);
+        eye[1] = 100;
+        eye[2] = dist*Math.cos(viewAngle);
+        let target = vec3.fromValues(0,0,0);
+        let up = vec3.fromValues(0,100,0);
+        let lookAtCam = mat4.create();
+        mat4.lookAt(lookAtCam,eye,target,up); //lookat matrix
+    
+        //sets up projection system
+    
+        let ortho = mat4.create();
+        mat4.ortho(ortho,-100,100,-100,-1,1); //ortho matrix
+    
+        //setting up VIEWPORT
+        
+        let viewport = mat4.create(); //viewport matrix 
+        //moves center of camera to 400,400,0 and flips it
+        mat4.fromTranslation(viewport,[300,300,0]);
+        mat4.scale(viewport,viewport,[100,-100,1]);
+        //canvas matrix
+        let projection = mat4.create();
+        mat4.multiply(projection,viewport,ortho);
+        mat4.multiply(projection,projection,lookAtCam);
+        mat4.multiply(stack[0],stack[0],projection);
+        }
     function drawSpider(){
       if (v<=210 && acycle == false){v =(v+0.3);}
       else{
@@ -213,12 +246,18 @@ function setup() { "use strict";
       mat4.scale(f_2l_leg,f_2l_leg,[1.5,1,1]);
       mat4.multiply(stack[0],stack[0],f_2l_leg);
       legs();
+
     }
+    //SetCam();
     drawSpider();
+    
+    
     window.requestAnimationFrame(draw);
 
   }
   window.requestAnimationFrame(draw);
+  slider1.addEventListener("input",draw);
+  
   draw();
 }
 window.onload = setup;
