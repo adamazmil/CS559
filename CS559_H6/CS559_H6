@@ -1,0 +1,96 @@
+#ifdef VS 
+ 
+precision highp float;
+attribute vec3 position;
+attribute vec3 normal;
+uniform mat3 normalMatrix;
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+uniform float time;
+
+const float pi = 3.14159;
+//copy position and normal vector to be interpolated into fragment shader
+varying vec3 fNormal;
+varying vec3 fPosition;
+varying vec3 rawZ;
+
+varying vec3 modelY;
+varying vec3 modelN;
+
+vec2 Rotate2D(vec2 vec_in, float angle){
+vec2 vec_out;
+//makes a sphere
+  vec_out.x=cos(angle)*vec_in.x-sin(angle)*vec_in.y;
+  vec_out.y=sin(angle)*vec_in.x+cos(angle)*vec_in.y;
+return vec_out;
+}
+
+void main()
+{
+  modelN=normal;
+  modelY=position;
+  rawZ=position;
+  
+  //controls the speed of the light.
+  if(modelY.x<0.2&&modelY.y>0.2)
+  modelY.xy = Rotate2D(modelY.xy,0.1*pi*modelY.y*sin(9.0*time));
+  if(modelY.x<0.2&&modelY.y<0.1)
+  modelY.xy = Rotate2D(modelY.xy,0.15*pi*modelY.y*sin(6.0*time));
+  if(modelY.x>0.3 && modelY.y<0.2)
+  modelY.xz = Rotate2D(modelY.xz,0.4*pi*modelY.y*sin(8.0*time));
+  if (modelY.x>0.20 && modelY.x<0.6)
+  modelY.xy = Rotate2D(modelY.xy,0.1*pi*modelY.y*sin(8.0*time));
+  if(modelY.x>0.7 && modelY.y>0.2)
+  modelY.xz = Rotate2D(modelY.xz,0.3*pi*modelY.y*sin(8.0*time));
+  modelN.xz = Rotate2D(modelN.xz,0.8*pi*modelY.y*sin(12.0*time));
+  
+  fNormal = normalize(normalMatrix * modelN);
+  vec4 pos = modelViewMatrix * vec4(modelY, 1.0);
+  fPosition = pos.xyz;
+  gl_Position = projectionMatrix * pos;
+}
+ 
+#else 
+ 
+precision highp float;
+varying vec3 fPosition;
+varying vec3 fNormal;
+varying vec3 rawZ;
+
+const float ambient_coeff   = 0.49;
+const float specular_coeff  = 1.0;
+const float specular_exp    =32.0;
+const vec3  light_direction = vec3(-1.0,0.70,1.0); // stationary light
+const vec3  light_color     = vec3(1.0,1.0,1.0); //white light
+const vec3  object_color    = vec3(0.0,0.4,0.8); // bluish object
+const vec3  object_color2   = vec3(1.0,1.0,1.0);
+
+const float diffuseC = 0.7;
+const vec3 lightV1 = vec3(0.0,1.0,0.0);
+const float lightI = 1.0;
+
+void main()
+{
+  //where the light is
+  vec3 l = normalize(light_direction);
+  //the normal vector
+  vec3 n = normalize(fNormal);
+  // the eye of the camera
+  vec3 e = normalize(-fPosition);
+  //the specular reflection 
+  vec3 h = normalize (e+l);
+  
+  float diffuse = ambient_coeff + diffuseC *lightI* max(0.0,dot(l,n));
+  vec3 colordiffuse = diffuse*object_color;
+  vec3 colordiffuse2 = diffuse*object_color2;
+
+  vec3 ambient_color  = ambient_coeff  * object_color;
+  vec3 ambient_color2 = ambient_coeff *object_color2;
+  vec3 specular_color = specular_coeff * pow(max(0.0,dot(n,h)),specular_exp) * light_color;
+  gl_FragColor = vec4(ambient_color+specular_color +colordiffuse, 1.0);
+  if (sin(40.0*rawZ.z)>0.2) gl_FragColor=vec4(ambient_color2+specular_color +colordiffuse2 ,1.0);
+  
+  if(sin(50.0*rawZ.z)>0.9) discard;
+}
+ 
+#endif
