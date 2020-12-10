@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WebGL cube drawn with indexed vertex list</title>
+    <title>Spider</title>
+    <style>canvas {
+      background-image: url("toilet.jpg");
+      background-size: cover;
+    }</style>
   </head>
-
+  
   <body>
+    <script type="text/javascript" src="Model.js"></script>
     <script id="vertexShader" type="not-js">
       attribute vec3 vPosition;
       attribute vec3 vNormal;
@@ -38,7 +43,7 @@
       uniform sampler2D texSampler2;
       uniform sampler2D texSampler3;
 
-      const vec3  lightV    = vec3(0.0,-0.3,1.0);
+      const vec3  lightV    = vec3(1.0,1.0,1.0);
       const float lightI    = 1.0;               // only for diffuse component
       const float ambientC  = 0.5;
       const float diffuseC  = 0.4;
@@ -61,10 +66,7 @@
         vec3 texColor1 = texture2D(texSampler1,fTexCoord).xyz;
         vec3 texColor2 = texture2D(texSampler2,fTexCoord).xyz;
         vec3 texColor;
-        if(texSelector < 0.5)
         texColor = texColor1;
-      else
-        texColor = texColor2;
         vec3 n = normalize(uMVn * fNormal);
         vec3 ColorS  = blinnPhongDir(lightV,n,0.0   ,0.0,     0.0,     specularC,specularE).y*lightCol;
         vec3 ColorAD = blinnPhongDir(lightV,n,lightI,ambientC,diffuseC,0.0,      1.0      ).x*texColor;
@@ -76,6 +78,8 @@
     <br>
     <input id="slider1" type="range" min="-100" max="100" />
     <input id="slider2" type="range" min="-100" max="100" />
+    <br>
+    Zoom <input id="slider3" type="range" min="30" max="100"/>
     <script type="text/javascript" src="gl-matrix-min.js"></script>
     <script src="H7.js" id="module"></script>
   </body>

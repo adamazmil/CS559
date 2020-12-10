@@ -3,18 +3,21 @@ function start() {
   // Get canvas, WebGL context, g
   var canvas = document.getElementById("mycanvas");
   var gl = canvas.getContext("webgl");
-
+  var ctx = canvas.getContext("2d")
+  
   // Sliders at center
   var slider1 = document.getElementById('slider1');
   slider1.value = 0;
   var slider2 = document.getElementById('slider2');
   slider2.value = 0;
+  var slider3 = document.getElementById('slider3');
 
   // Read shader source
   var vertexSource = document.getElementById("vertexShader").text;
   var fragmentSource = document.getElementById("fragmentShader").text;
 
   // Compile vertex shader
+
   var vertexShader = gl.createShader(gl.VERTEX_SHADER);
   gl.shaderSource(vertexShader,vertexSource);
   gl.compileShader(vertexShader);
@@ -64,43 +67,21 @@ function start() {
   shaderProgram.texSampler3 = gl.getUniformLocation(shaderProgram, "texSampler3");
   gl.uniform1i(shaderProgram.texSampler3, 2);
   // Data ...
-  
   // vertex positions
-  var vertexPos = new Float32Array(
-    [-1,1,-1,
-      -1,-1,1,
-      -1,1,1,
-      1,1,-1,
-      -1,-1,-1,
-      -1,1,-1,1,1,1,1,-1,-1,1,1,-1,-1,1,1,1,-1,1,1,1,1,-1,-1,-1,1,-1,1,-1,-1,1,1,1,-1,-1,1,1,1,1,1,-1,1,-1,-1,-1,-1,-1,-1,1,1,1,-1,1,-1,-1,-1,-1,-1,1,1,1,1,-1,1,1,-1,-1,-1,1,1,-1,-1,1,1,-1,1,-1,-1,-1,1,-1,-1,1,-1,1,1,1,-1,-1,1,-1,-1,1,1]
-  )
-  // vertex normals
-  var vertexNormals = new Float32Array(
-    [-1,0
-      ,0,-1
-      ,0,0
-      ,-1,0
-      ,0,0,0,-1,0,0,-1,0,0,-1,1,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,-1,0,0,-1,0,0,-1,0,0,1,0,0,1,0,0,1,0,-1,0,0,-1,0,0,-1,0,0,0,0,-1,0,0,-1,0,0,-1,1,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,-1,0,0,-1,0,0,-1,0,0,1,0,0,1,0,0,1,0]
-  )
+    var vertexPos= new Float32Array(another.verts);
+    var vertexNormals = new Float32Array(another.normals);
+    var vertexTextureCoords = new Float32Array(another.texcoords)
+    var triangleIndices = new Uint32Array(another.indices)
   // vertex colors
   var vertexColors = new Float32Array(
     [0,0,0]);
-  
-  // vertex texture coordinates
-  var vertexTextureCoords = new Float32Array(
-    [1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0]
-  )
-  // element index array
-  var triangleIndices = new Uint8Array(
-    [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
-  )
   // we need to put the vertices into a buffer so we can
   // block transfer them to the graphics hardware
   var trianglePosBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, trianglePosBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertexPos, gl.STATIC_DRAW);
   trianglePosBuffer.itemSize = 3;
-  trianglePosBuffer.numItems = 24;
+  trianglePosBuffer.numItems = 128;
   
   // a buffer for normals
   var triangleNormalBuffer = gl.createBuffer();
@@ -151,15 +132,15 @@ function start() {
   {
     image1.onload = function() { loadTexture(image1,texture1); };
     image1.crossOrigin = "anonymous";
-    image1.src = "https://farm6.staticflickr.com/5564/30725680942_e3bfe50e5e_b.jpg";
+    image1.src = "https://live.staticflickr.com/1571/24691508856_fbe44a80ef_k.jpg";
 
     image2.onload = function() { loadTexture(image2,texture2); };
     image2.crossOrigin = "anonymous";
-    image2.src = "https://live.staticflickr.com/65535/50641871583_78566f4fbb_o.jpg";
+    image2.src = "https://live.staticflickr.com/2078/2502906115_54e829575d_h.jpg";
 
     image3.onload = function() { loadTexture(image3,texture3); };
     image3.crossOrigin = "anonymous";
-    image3.src = "https://live.staticflickr.com/65535/50641908943_f6ebfef28d_o.jpg";
+    image3.src = "https://i.imgur.com/glP2yPo.jpg";
 
     window.setTimeout(draw,200);
   }
@@ -169,17 +150,9 @@ function start() {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 
-    // Option 1 : Use mipmap, select interpolation mode
-    gl.generateMipmap(gl.TEXTURE_2D);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-
-    // Option 2: At least use linear filters
-    // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-    // Optional ... if your shader & texture coordinates go outside the [0,1] range
-    // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      //linear filters
+     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   }    
   // Scene (re-)draw routine
   function draw() {
@@ -187,14 +160,15 @@ function start() {
       // Translate slider values to angles in the [-pi,pi] interval
       var angle1 = slider1.value*0.01*Math.PI;
       var angle2 = slider2.value*0.01*Math.PI;
+      var zoom = slider3.value;
   
       // Circle around the y-axis
-      var eye = [400*Math.sin(angle1),150.0,400.0*Math.cos(angle1)];
+      var eye = [400*Math.sin(angle1),100.0,400.0*Math.cos(angle1)];
       var target = [0,0,0];
       var up = [0,1,0];
   
       var tModel = mat4.create();
-      mat4.fromScaling(tModel,[100,100,100]);
+      mat4.fromScaling(tModel,[zoom,zoom,zoom]);
       mat4.rotate(tModel,tModel,angle2,[1,1,1]);
     
       var tCamera = mat4.create();
@@ -234,20 +208,22 @@ function start() {
         gl.FLOAT, false, 0, 0);
 
     // Bind texture
-      // gl.activeTexture(gl.TEXTURE0);
-      // gl.bindTexture(gl.TEXTURE_2D, texture1);
-      // gl.activeTexture(gl.TEXTURE1);
-      // gl.bindTexture(gl.TEXTURE_2D, texture2);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, texture1);
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_2D, texture2);
       gl.activeTexture(gl.TEXTURE2);
       gl.bindTexture(gl.TEXTURE_2D,texture3);
 
       // Do the drawing
-      gl.drawElements(gl.TRIANGLES, triangleIndices.length, gl.UNSIGNED_BYTE, 0);
+      gl.getExtension('OES_element_index_uint');
+      gl.drawElements(gl.TRIANGLES, triangleIndices.length, gl.UNSIGNED_INT, 0);
 
   }
 
   slider1.addEventListener("input",draw);
   slider2.addEventListener("input",draw);
+  slider3.addEventListener("input",draw);
   initTextureThenDraw();
 }
 
