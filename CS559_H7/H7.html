@@ -21,7 +21,7 @@
       varying vec2 fTexCoord;
       uniform mat4 uMV;
       uniform mat4 uMVP;
-    
+      const float pi = 3.14159;
 
       void main(void) {
         gl_Position = uMVP * vec4(vPosition, 1.0);
