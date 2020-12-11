@@ -48,8 +48,8 @@ function start() {
   shaderProgram.NormalAttribute = gl.getAttribLocation(shaderProgram, "vNormal");
   gl.enableVertexAttribArray(shaderProgram.NormalAttribute);
   
-  //shaderProgram.ColorAttribute = gl.getAttribLocation(shaderProgram, "vColor");
-  //gl.enableVertexAttribArray(shaderProgram.ColorAttribute);
+  shaderProgram.ColorAttribute = gl.getAttribLocation(shaderProgram, "vColor");
+  gl.enableVertexAttribArray(shaderProgram.ColorAttribute);
   
   shaderProgram.texcoordAttribute = gl.getAttribLocation(shaderProgram, "vTexCoord");
   gl.enableVertexAttribArray(shaderProgram.texcoordAttribute);
@@ -132,15 +132,15 @@ function start() {
   {
     image1.onload = function() { loadTexture(image1,texture1); };
     image1.crossOrigin = "anonymous";
-    image1.src = "https://live.staticflickr.com/1571/24691508856_fbe44a80ef_k.jpg";
+    image1.src = "red.jpg";
 
     image2.onload = function() { loadTexture(image2,texture2); };
     image2.crossOrigin = "anonymous";
-    image2.src = "https://live.staticflickr.com/2078/2502906115_54e829575d_h.jpg";
+    image2.src = "black.png";
 
     image3.onload = function() { loadTexture(image3,texture3); };
     image3.crossOrigin = "anonymous";
-    image3.src = "https://i.imgur.com/glP2yPo.jpg";
+    image3.src = "web.png";
 
     window.setTimeout(draw,200);
   }
@@ -200,9 +200,9 @@ function start() {
       gl.bindBuffer(gl.ARRAY_BUFFER, triangleNormalBuffer);
       gl.vertexAttribPointer(shaderProgram.NormalAttribute, triangleNormalBuffer.itemSize,
         gl.FLOAT, false, 0, 0);
-      // gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-      // gl.vertexAttribPointer(shaderProgram.ColorAttribute, colorBuffer.itemSize,
-      //   gl.FLOAT,false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+      gl.vertexAttribPointer(shaderProgram.ColorAttribute, colorBuffer.itemSize,
+        gl.FLOAT,false, 0, 0);
       gl.bindBuffer(gl.ARRAY_BUFFER, textureBuffer);
       gl.vertexAttribPointer(shaderProgram.texcoordAttribute, textureBuffer.itemSize,
         gl.FLOAT, false, 0, 0);

@@ -21,6 +21,7 @@
       varying vec2 fTexCoord;
       uniform mat4 uMV;
       uniform mat4 uMVP;
+    
 
       void main(void) {
         gl_Position = uMVP * vec4(vPosition, 1.0);
@@ -43,14 +44,14 @@
       uniform sampler2D texSampler2;
       uniform sampler2D texSampler3;
 
-      const vec3  lightV    = vec3(1.0,1.0,1.0);
+      const vec3  lightV    = vec3(1.0,0.0,0.0);
       const float lightI    = 1.0;               // only for diffuse component
-      const float ambientC  = 0.5;
+      const float ambientC  = 0.49;
       const float diffuseC  = 0.4;
       const float specularC = 0.3;
-      const float specularE = 32.0;
-      const vec3  lightCol  = vec3(1.0,1.0,1.0);
-      const vec3  objectCol = vec3(1.0,0.6,0.0); // yellow-ish orange
+      const float specularE = 24.0;
+      const vec3  lightCol  = vec3(1.0,0.0,0.0);
+      const vec3  objectCol = vec3(1.0,0.0,0.0); // yellow-ish orange
       vec2 blinnPhongDir(vec3 lightDir, vec3 n, float lightInt, float Ka,
         float Kd, float Ks, float shininess) {
         vec3 s = normalize(lightDir);
@@ -62,11 +63,13 @@
       }
 
       void main(void) {
-        float texSelector = texture2D(texSampler3,fTexCoord).x;
+        float texSelector = texture2D(texSampler3,fTexCoord).z;
         vec3 texColor1 = texture2D(texSampler1,fTexCoord).xyz;
         vec3 texColor2 = texture2D(texSampler2,fTexCoord).xyz;
         vec3 texColor;
-        texColor = texColor1;
+        if (texSelector > 0.5)
+        texColor = texColor2;
+        else texColor = texColor1;
         vec3 n = normalize(uMVn * fNormal);
         vec3 ColorS  = blinnPhongDir(lightV,n,0.0   ,0.0,     0.0,     specularC,specularE).y*lightCol;
         vec3 ColorAD = blinnPhongDir(lightV,n,lightI,ambientC,diffuseC,0.0,      1.0      ).x*texColor;
